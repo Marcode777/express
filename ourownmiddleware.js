@@ -3,7 +3,15 @@ var bodyParser = require("body-parser");// this is a middleware piece; parser ge
 var app = express(); // this also handles creating the server, which on the previous examples, would have normally taken around 75 lines of code total
 var PORT = 3000;
 ​
-app.use(bodyParser.urlencoded({ extended: false}));
+function myLoggingMiddleWare(req, res, next){
+  var url = req.url;
+  var method = req.method;
+
+  console.log("%s request at %s", url, method);
+  next();
+}
+
+app.use(myLoggingMiddleware); // this is our own middleware that we made
 ​
 app.get("/login", function(req, res) {
   res.sendFile(process.cwd() + "/views/login.html");
